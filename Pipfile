@@ -8,6 +8,7 @@ africastalking = "*"
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

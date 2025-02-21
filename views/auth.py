@@ -48,3 +48,22 @@ def protected():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
     return jsonify({'message': f'Welcome {user.username}', 'role': user.Role}), 200
+
+
+@auth_bp.route("/reset-password", methods=["POST"])
+def reset_password():
+    data = request.json
+    email = data.get("email")
+    new_password = data.get("new_password")
+
+    if not email or not new_password:
+        return jsonify({"error": "Email and new password are required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    user.password = generate_password_hash(new_password)  # Hash the new password
+    db.session.commit()
+
+    return jsonify({"message": "Password reset successful"}), 200

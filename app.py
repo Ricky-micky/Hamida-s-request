@@ -2,10 +2,10 @@ from flask import Flask,request,jsonify
 from flask_migrate import Migrate
 from model import db, User, Product, Shop, SearchHistory, ComparisonResult, Order, Payment
 # from flask_dance.contrib.google import make_google_blueprint, google
-import africastalking
-
+# import africastalking
+# sqlite:///cwalshop.db
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cwalshop.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://shop_crawl_user:pjuSxMwrZ7iAV4cWhfUe93KJeMciTX9V@dpg-cv5vhiqn91rc73b9ann0-a.oregon-postgres.render.com/shop_crawl'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 
@@ -33,8 +33,8 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 # Initialize Africa's Talking
-africastalking.initialize(username='sandbox', api_key='atsk_69bc0eb6311a924f5104f19c0cf3ce51badf4216c9dc04e924beb28c9a74c28f735f718f')
-sms = africastalking.SMS
+# africastalking.initialize(username='sandbox', api_key='atsk_69bc0eb6311a924f5104f19c0cf3ce51badf4216c9dc04e924beb28c9a74c28f735f718f')
+# sms = africastalking.SMS
 
 
 
@@ -71,7 +71,7 @@ def create_payment():
 #import views after the db is 
 from views.payment import payment_blueprint
 from views.shops import shop_blueprint
-from views.product import product_blueprint
+from views.product import product_bp
 from views.User import user_blueprint
 from views.order import order_blueprint
 from views.ComparionResult import comparison_blueprint
@@ -80,7 +80,7 @@ from views.auth import auth_bp
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(user_blueprint)
-app.register_blueprint(product_blueprint)
+app.register_blueprint(product_bp)
 app.register_blueprint(shop_blueprint)
 app.register_blueprint(order_blueprint)
 app.register_blueprint(comparison_blueprint)

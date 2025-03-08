@@ -19,19 +19,21 @@ class User(db.Model):
 
 class Product(db.Model):
     __tablename__ = 'products'
-
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    description = db.Column(db.String)
-    category = db.Column(db.String)
-    price = db.Column(db.Float, nullable=False)
-    rating = db.Column(db.Float)
-    rating_count = db.Column(db.Integer)
-    delivery_cost = db.Column(db.Float, nullable=False)
-    payment_mode = db.Column(db.String)
-    shop_id = db.Column(db.Integer, db.ForeignKey('shops.id'), nullable=False)
+    product_name = db.Column(db.String(100))
+    product_price = db.Column(db.Float)
+    product_rating = db.Column(db.Float)
+    product_url = db.Column(db.String(255))
+    delivery_cost = db.Column(db.Float)
+    shop_name = db.Column(db.String(100))
+    payment_mode = db.Column(db.String(50))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    navigate_link = db.Column(db.String(255))  # New field for the navigation link
 
-    shop = db.relationship('Shop', backref=db.backref('products', lazy=True))
+    shop_id = db.Column(db.Integer, db.ForeignKey('shops.id', name='fk_product_shop'), nullable=False)  # Specify constraint name
+    comparisons = db.relationship('ComparisonResult', backref='product', lazy=True)
+    
+    shop = db.relationship('Shop', backref='shop_products')
 
 
 class Shop(db.Model):
@@ -53,6 +55,9 @@ class SearchHistory(db.Model):
 
 class ComparisonResult(db.Model):
     __tablename__ = 'comparison_results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)  
 
     id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String, nullable=False)
@@ -90,3 +95,6 @@ class Payment(db.Model):
     status = db.Column(db.String, nullable=False)  # e.g., "Pending", "Completed"
 
     order = db.relationship('Order', backref=db.backref('payment', uselist=False))
+
+
+

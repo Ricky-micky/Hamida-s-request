@@ -1,8 +1,8 @@
-"""shop
+"""Initial migration.
 
-Revision ID: 68542387ebdf
+Revision ID: 2db0fcf41584
 Revises: 
-Create Date: 2025-02-20 18:04:16.729128
+Create Date: 2025-03-08 10:49:19.773268
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '68542387ebdf'
+revision = '2db0fcf41584'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -53,16 +53,17 @@ def upgrade():
     )
     op.create_table('products',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.Column('description', sa.String(), nullable=True),
-    sa.Column('category', sa.String(), nullable=True),
-    sa.Column('price', sa.Float(), nullable=False),
-    sa.Column('rating', sa.Float(), nullable=True),
-    sa.Column('rating_count', sa.Integer(), nullable=True),
-    sa.Column('delivery_cost', sa.Float(), nullable=False),
-    sa.Column('payment_mode', sa.String(), nullable=True),
+    sa.Column('product_name', sa.String(length=100), nullable=True),
+    sa.Column('product_price', sa.Float(), nullable=True),
+    sa.Column('product_rating', sa.Float(), nullable=True),
+    sa.Column('product_url', sa.String(length=255), nullable=True),
+    sa.Column('delivery_cost', sa.Float(), nullable=True),
+    sa.Column('shop_name', sa.String(length=100), nullable=True),
+    sa.Column('payment_mode', sa.String(length=50), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('navigate_link', sa.String(length=255), nullable=True),
     sa.Column('shop_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['shop_id'], ['shops.id'], ),
+    sa.ForeignKeyConstraint(['shop_id'], ['shops.id'], name='fk_product_shop'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('search_history',

@@ -1,9 +1,10 @@
 from flask import Flask,request,jsonify
 from flask_migrate import Migrate
 from model import db, User, Product, Shop, SearchHistory, ComparisonResult, Order, Payment
-# from flask_dance.contrib.google import make_google_blueprint, google
-# import africastalking
-# sqlite:///cwalshop.db
+
+
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://shop_crawl_user:pjuSxMwrZ7iAV4cWhfUe93KJeMciTX9V@dpg-cv5vhiqn91rc73b9ann0-a.oregon-postgres.render.com/shop_crawl'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
@@ -35,7 +36,9 @@ migrate = Migrate(app, db)
 # Initialize Africa's Talking
 # africastalking.initialize(username='sandbox', api_key='atsk_69bc0eb6311a924f5104f19c0cf3ce51badf4216c9dc04e924beb28c9a74c28f735f718f')
 # sms = africastalking.SMS
-
+# from flask_dance.contrib.google import make_google_blueprint, google
+# import africastalking
+# sqlite:///cwalshop.db
 
 
 @app.route('/payments', methods=['POST'])
